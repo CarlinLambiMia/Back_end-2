@@ -7,7 +7,6 @@ const app = express();
 app.get("/historicoIPCA/", (req, res) => {
     var resultado;
     const anoInformado = parseInt(req.query.ano);
-    //Tratamento de erro
     if (isNaN(parseInt(req.query.ano))) {
         if (req.query.ano === undefined) {
             resultado = pesquisarTodaLista();
@@ -33,7 +32,6 @@ app.get("/historicoIPCA/calculo/", (req, res) => {
     const mesFinal = parseInt(req.query.mesFinal);
     const anoFinal = parseInt(req.query.anoFinal);
 
-    //Tratamento de erro
     if (isNaN(valor) || isNaN(mesInicial) || isNaN(anoInicial) || isNaN(mesFinal) || isNaN(anoFinal)) {
         return res.status(400).json({ erro: "Parâmetros inválidos" });
     } else if (anoInicial > anoFinal || anoInicial == anoFinal && mesInicial > mesFinal) {
@@ -55,7 +53,6 @@ app.get("/historicoIPCA/:id", (req, res) => {
     }
 });
 
-//Tratamento de erro
 app.use((req, res, next) => {
     res.status(404).json({ error: "Endpoint não encontrado" });
 });

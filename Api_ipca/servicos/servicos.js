@@ -15,7 +15,6 @@ export const buscarIpcaPorId = (id) => {
 };
 
 export const calcularValor = (valor, mesInicial, anoInicial, mesFinal, anoFinal) => {
-    // Filtra o histórico de inflação com base nos parâmetros fornecidos
     const listaIpca = historicoInflacao.filter((ipca) => {
         return (
             (ipca.ano === anoInicial && ipca.mes >= mesInicial) ||
@@ -24,10 +23,8 @@ export const calcularValor = (valor, mesInicial, anoInicial, mesFinal, anoFinal)
         );
     });
 
-    // Inicializa o resultado com o valor inicial
     let resultado = valor;
 
-    // Calcula o resultado com base nos valores de IPCA filtrados
     listaIpca.forEach(ipca => {
         resultado *= (1 + (ipca.ipca / 100));
     });
