@@ -138,5 +138,5 @@ const colecaoUf = [
     }]
 
     // Exporta a coleção de UFs para que possa ser utilizada em outros arquivos do projeto
-
-    export default colecaoUf
+    //exports.colecaoUf = colecaoUf;
+    export default colecaoUf;
