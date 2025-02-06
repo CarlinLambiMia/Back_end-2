@@ -1,8 +1,18 @@
 import express from "express";
 import { retornaCampeonatos, retornaCampeonatosAno, retornaCampeonatosID, retornaCampeonatosTime } from "./servico/retornaCampeonato_servico.js";
+import { cadastrarCampeonato } from "./servico/cadastrarCampeonato.servico.js";
 //import pool from './servico/conexao.js';
 
 const app = express();
+app.use(express.json());
+
+app.post('/campeonatos', async (req, res) =>{
+    const campeao = req.body.campeao;
+    const vice = req.body.vice;
+    const ano = req.body.ano;
+    await cadastrarCampeonato(campeao, vice, ano);
+    res.status(204).send({"Mensagem:": "Cadastro efetivado com sucesso!"})
+})
 
 app.get('/campeonatos', async (req, res) => {
     let campeonatos;
@@ -10,8 +20,8 @@ app.get('/campeonatos', async (req, res) => {
     const ano = req.query.ano;
     const time = req.query.time
 
-    if (typeof ano === 'undefined' && typeof time === 'undefine') {
-        campeonatos = await retornaCampeonatos ();
+    if (typeof ano === 'undefined' && typeof time === 'undefined') {
+        campeonatos = await retornaCampeonatos();
     } 
     else if (typeof ano !== 'undefined'){
         campeonatos = await retornaCampeonatosAno(ano);
@@ -19,11 +29,8 @@ app.get('/campeonatos', async (req, res) => {
     else if (typeof time !== 'undefined'){
         campeonatos = await retornaCampeonatosTime(time);
     }
-    if (campeonatos.length > 0) {
-        res.json(campeonatos);
-    } else {
-        res.status(404).json({mensagem: "Nenhum campeonato encontrado"})
-    }
+    
+    res.json(campeonatos);
 })
 
 app.get('/campeonatos/:id', async (req, res) => {
